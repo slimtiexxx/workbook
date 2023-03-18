@@ -126,7 +126,7 @@ const App: React.FC = () => {
               className='group border-t border-r border-neutral-600 px-4 py-3'
             >
               <div
-                className={classNames('rounded bg-stone-500', {
+                className={classNames('rounded bg-stone-500 overflow-hidden', {
                   'opacity-25 pointer-events-none user-select-none': !active,
                 })}
               >
@@ -147,16 +147,16 @@ const App: React.FC = () => {
                     {active && !inFuture && (
                       <div
                         className={classNames(
-                          'flex w-6 flex-col transition-all group-hover:opacity-100 group-hover:translate-x-0 transition',
+                          'flex w-6 flex-col transition-all border-r group-hover:opacity-100 border-stone-500 group-hover:translate-x-0 transition',
                           {
-                            'opacity-0 translate-x-full': !isToday,
+                            'opacity-0 translate-x-6': !isToday,
                             'opacity-1 translate-x-0': isToday,
                           },
                         )}
                       >
                         <button
                           onClick={() => handlePlusIconClick(fullDate)}
-                          className='relative flex h-full items-center justify-center border-b border-neutral-200 bg-stone-600 px-2 font-light text-neutral-200'
+                          className='relative flex h-full items-center justify-center border-b border-stone-500 bg-stone-600 font-light text-neutral-200'
                         >
                           <span className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
                             +
