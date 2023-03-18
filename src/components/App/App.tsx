@@ -56,16 +56,17 @@ const App: React.FC = () => {
   }
   const handleTodayButtonClick = () => {
     setSelectedMonth(today.month())
+    setSelectedYear(today.year())
   }
 
   return (
-    <div className='container mx-auto py-10 space-y-6'>
+    <div className='container mx-auto space-y-6 py-10'>
       <header className='flex justify-between'>
         <div className='flex space-x-2.5'>
           <select
             onChange={handleYearSelectChange}
             value={selectedYear}
-            className='px-4 bg-transparent text-neutral-300 outline-emerald-500 py-2 border border-neutral-500 appearance-none rounded'
+            className='appearance-none rounded border border-neutral-500 bg-transparent px-4 py-2 text-neutral-300 outline-emerald-500'
           >
             {years.map((year) => (
               <option key={`year-${year}`}>{year}</option>
@@ -75,14 +76,14 @@ const App: React.FC = () => {
             <button
               role='button'
               onClick={handleMonthStepBackward}
-              className='cursor-pointer outline-emerald-500 p-2 border border-neutral-500 rounded-tl rounded-bl'
+              className='cursor-pointer rounded-l border border-neutral-500 p-2 outline-emerald-500'
             >
               <ChevronLeftIcon className='h-6 text-neutral-300' />
             </button>
             <select
               onChange={handleMonthSelectChange}
               value={selectedMonth}
-              className='px-4 bg-transparent text-neutral-300 outline-emerald-500 py-2 border border-neutral-500 appearance-none border-l-0 border-r-0 relative text-center'
+              className='relative appearance-none border border-x-0 border-neutral-500 bg-transparent px-4 py-2 text-center text-neutral-300 outline-emerald-500'
             >
               {months.map((month, monthNumber) => {
                 return (
@@ -95,7 +96,7 @@ const App: React.FC = () => {
             <button
               role='button'
               onClick={handleMonthStepForward}
-              className='cursor-pointer outline-emerald-500 p-2 border border-neutral-500 rounded-tr rounded-br'
+              className='cursor-pointer rounded-r border border-neutral-500 p-2 outline-emerald-500'
             >
               <ChevronRightIcon className='h-6 text-neutral-300' />
             </button>
@@ -105,7 +106,7 @@ const App: React.FC = () => {
           <button
             role='button'
             onClick={handleTodayButtonClick}
-            className='cursor-pointer outline-emerald-500 py-2 px-4 border border-neutral-500 rounded text-neutral-300'
+            className='cursor-pointer rounded border border-neutral-500 py-2 px-4 text-neutral-300 outline-emerald-500'
           >
             Today
           </button>
@@ -113,7 +114,7 @@ const App: React.FC = () => {
       </header>
       <div className={`grid grid-cols-7 [&>*:nth-child(7n)]:border-r-transparent`}>
         {weekDays.map((dayName) => (
-          <div className='px-4 py-3 border-r border-neutral-600 text-neutral-300' key={dayName}>
+          <div className='border-r border-neutral-600 px-4 py-3 text-neutral-300' key={dayName}>
             {dayName}
           </div>
         ))}
@@ -122,7 +123,7 @@ const App: React.FC = () => {
           return (
             <div
               key={`${year}-${month}-${date}`}
-              className='px-4 py-3 border-t border-r border-neutral-600 group'
+              className='group border-t border-r border-neutral-600 px-4 py-3'
             >
               <div
                 className={classNames('rounded bg-stone-500', {
@@ -155,7 +156,7 @@ const App: React.FC = () => {
                       >
                         <button
                           onClick={() => handlePlusIconClick(fullDate)}
-                          className='relative flex px-2 font-light border-b justify-center h-full items-center text-neutral-200 border-neutral-200 bg-stone-600'
+                          className='relative flex h-full items-center justify-center border-b border-neutral-200 bg-stone-600 px-2 font-light text-neutral-200'
                         >
                           <span className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
                             +
@@ -163,7 +164,7 @@ const App: React.FC = () => {
                         </button>
                         <button
                           onClick={() => handleMinusIconClick(fullDate)}
-                          className='flex relative justify-center font-light h-full items-center bg-stone-600 text-neutral-200'
+                          className='relative flex h-full items-center justify-center bg-stone-600 font-light text-neutral-200'
                         >
                           <span className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
                             -
@@ -174,7 +175,7 @@ const App: React.FC = () => {
                     {!inFuture && (
                       <div
                         className={classNames(
-                          'relative z-10 w-10 h-full text-white rounded-tr rounded-br text-xs flex justify-center items-center',
+                          'relative z-10 w-10 h-full text-white transition-colors rounded-tr rounded-br text-xs flex justify-center items-center',
                           getHourIntensityColour(hour),
                         )}
                       >

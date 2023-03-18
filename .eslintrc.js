@@ -24,9 +24,15 @@ module.exports = {
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:tailwindcss/recommended',
     'prettier',
   ],
-  overrides: [],
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx', '*.js'],
+      parser: '@typescript-eslint/parser',
+    },
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
