@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import { useMonthDays } from '@hooks/useMonthDays'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
 import _loggedHours from '@mocks/logged-hours.json'
+
 import { getHourIntensityColour } from '@utils/getHourIntensityColour'
 
 const months = dateUtil.months()
