@@ -1,7 +1,7 @@
 import { dateUtil } from '@utils/date'
 export const DAYS_TO_DISPLAY = 42
 
-type DayEntry = {
+export type DayEntry = {
   date: number
   month: number
   year: number

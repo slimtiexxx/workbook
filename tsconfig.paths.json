@@ -5,7 +5,8 @@
       "@components/*": ["./src/components/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@utils/*": ["./src/utils/*"],
-      "@mocks/*": ["./src/mocks/*"]
+      "@mocks/*": ["./src/mocks/*"],
+      "@app/*": ["./src/app/*"]
     }
   }
 }
