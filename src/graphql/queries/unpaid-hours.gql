@@ -1,0 +1,14 @@
+query UnpaidHours {
+  dayEntries(
+    sort: "day"
+    pagination: { limit: 9999999 }
+    filters: { hours: { gt: 0 }, paid: { eq: false } }
+  ) {
+    data {
+      id
+      attributes {
+        hours
+      }
+    }
+  }
+}

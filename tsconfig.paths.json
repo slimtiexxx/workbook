@@ -2,11 +2,12 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@components/*": ["./src/components/*"],
-      "@hooks/*": ["./src/hooks/*"],
-      "@utils/*": ["./src/utils/*"],
-      "@mocks/*": ["./src/mocks/*"],
-      "@app/*": ["./src/app/*"]
+      "@components/*": ["src/components/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@utils/*": ["src/utils/*"],
+      "@mocks/*": ["src/mocks/*"],
+      "@app/*": ["src/app/*"],
+      "@generated/*": ["src/generated/*"]
     }
   }
 }

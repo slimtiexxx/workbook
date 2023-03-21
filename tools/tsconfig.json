@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "paths": {
+      "@web/*": ["../src/*"]
+    },
     "target": "es5",
     "module": "commonjs",
     "lib": ["dom"],
@@ -10,9 +13,9 @@
     "baseUrl": "./",
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "jsx": "react-jsx"
   },
   "include": ["./src/**/*"],
-  "exclude": ["node_modules"],
-  "extends": "../tsconfig.paths.json"
+  "exclude": ["node_modules"]
 }

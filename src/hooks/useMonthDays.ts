@@ -11,6 +11,8 @@ export type DayEntry = {
   active: boolean
   inFuture: boolean
   fullDate: string
+  savedHours?: number
+  paid: boolean
 }
 type UseCurrentMonthHook = () => DayEntry[]
 
@@ -36,6 +38,7 @@ export const useMonthDays: UseCurrentMonthHook = () => {
       isToday: fullDate === dateUtil().format('YYYY-MM-DD'),
       active: currentDate.month() === month,
       inFuture: currentDate.unix() > dateUtil().unix(),
+      paid: false,
     }
   })
 

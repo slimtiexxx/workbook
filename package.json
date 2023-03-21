@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.7.10",
     "@craco/craco": "^7.1.0",
     "@heroicons/react": "^2.0.16",
     "@reduxjs/toolkit": "^1.9.3",
@@ -19,17 +20,20 @@
     "date-fns": "^2.29.3",
     "dayjs": "^1.11.7",
     "exceljs": "^4.3.0",
+    "graphql": "^16.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.5",
     "react-scripts": "5.0.1",
     "react-tabs": "^6.0.0",
-    "typescript": "^4.9.5",
+    "typescript": "^5.0.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "craco start",
     "build": "craco build",
+    "codegen": "graphql-codegen",
+    "codegen-watch": "graphql-codegen -w",
     "test": "craco test",
     "typecheck": "tsc --noEmit",
     "eject": "react-scripts eject",
@@ -65,6 +69,9 @@
     ]
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^3.2.2",
+    "@graphql-codegen/client-preset": "^2.1.1",
+    "@graphql-codegen/typescript-react-apollo": "^3.3.7",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
     "craco-alias": "^3.0.1",

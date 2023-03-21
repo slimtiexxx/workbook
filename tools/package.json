@@ -4,12 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "excell-to-json": "ts-node src/excel-to-json.ts"
+    "generate-mock": "ts-node src/generate-mock.ts",
+    "migrate-db": "ts-node src/migrate.ts"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^18.15.5",
+    "chalk": "4",
+    "isomorphic-fetch": "^3.0.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.2"
   }

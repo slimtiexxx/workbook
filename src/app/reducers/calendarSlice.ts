@@ -1,16 +1,15 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { dateUtil } from '@utils/date'
-import hours from '@mocks/logged-hours.json'
 import { RootState } from '@app/store'
 
 const today = dateUtil()
 
 export type HourEntry = {
   date: string
-  value: number
+  hours: number
 }
 
-export type HoursRecord = Record<HourEntry['date'], HourEntry['value']>
+export type HoursRecord = Record<HourEntry['date'], HourEntry['hours']>
 
 export interface CalendarState {
   month: number
@@ -21,7 +20,7 @@ export interface CalendarState {
 const initialState: CalendarState = {
   month: today.month(),
   year: today.year(),
-  hours,
+  hours: {},
 }
 
 export const calendarSlice = createSlice({
@@ -57,7 +56,7 @@ export const calendarSlice = createSlice({
     logHour: (state, { payload }: PayloadAction<HourEntry>) => {
       state.hours = {
         ...state.hours,
-        [payload.date]: payload.value,
+        [payload.date]: payload.hours,
       }
     },
   },
@@ -72,45 +71,6 @@ export const selectHour = (date: string): ((state: RootState) => number) =>
     (state: RootState) => state.calendar.hours[date],
     (hours) => hours || 0,
   )
-
-export const selectMonthHourSummary = createSelector(
-  (state: RootState) => state.calendar.year,
-  (state: RootState) => state.calendar.month,
-  (state: RootState) => state.calendar.hours,
-  (year, month, hours) =>
-    Object.entries(hours).reduce((acc, [dateString, hour]) => {
-      const date = dateUtil(dateString)
-      if (date.year() === year && date.month() === month) {
-        acc += hour
-      }
-
-      return acc
-    }, 0),
-)
-
-export const selectYearHourSummary = createSelector(
-  (state: RootState) => state.calendar.year,
-  (state: RootState) => state.calendar.hours,
-  (year, hours) =>
-    Object.entries(hours).reduce((acc, [dateString, hour]) => {
-      const date = dateUtil(dateString)
-      if (date.year() === year) {
-        acc += hour
-      }
-
-      return acc
-    }, 0),
-)
-
-export const selectTotalHourSummary = createSelector(
-  (state: RootState) => state.calendar.hours,
-  (hours) =>
-    Object.values(hours).reduce((acc, hour) => {
-      acc += hour
-
-      return acc
-    }, 0),
-)
 
 export const { nextMonth, prevMonth, stepToday, setMonth, setYear, logHour } = calendarSlice.actions
 
