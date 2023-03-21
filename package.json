@@ -31,6 +31,7 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
+    "typecheck": "tsc --noEmit",
     "eject": "react-scripts eject",
     "lint": "eslint src/**/*.{ts,tsx,json}",
     "lint:fix": "yarn lint --fix",

@@ -33,7 +33,7 @@ module.exports = {
       parser: '@typescript-eslint/parser',
     },
     {
-      files: ['tools/**/*', '.eslintrc.js'],
+      files: ['tools/**/*', '.eslintrc.js', 'craco.config.ts'],
       rules: {
         '@typescript-eslint/no-var-requires': ['off'],
       },

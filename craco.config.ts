@@ -1,5 +1,5 @@
 const CracoAlias = require('craco-alias')
-const { compilerOptions } = require('./tsconfig.paths.json')
+import { compilerOptions } from './tsconfig.paths.json'
 
 module.exports = {
   plugins: [
