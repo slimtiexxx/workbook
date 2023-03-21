@@ -1,13 +1,16 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import calendarReducer from '@app/reducers/calendarSlice'
 
-export const store = configureStore({
-  reducer: {
-    calendar: calendarReducer,
-  },
+const rootReducer = combineReducers({
+  calendar: calendarReducer,
 })
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<typeof store.getState>
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
-export type AppDispatch = typeof store.dispatch
+export const setupStore = () => {
+  return configureStore({
+    reducer: rootReducer,
+  })
+}
+
+export type RootState = ReturnType<typeof rootReducer>
+export type AppDispatch = AppStore['dispatch']
+export type AppStore = ReturnType<typeof setupStore>

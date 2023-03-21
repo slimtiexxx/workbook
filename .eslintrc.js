@@ -1,18 +1,18 @@
-// const pathConfig = require('./tsconfig.paths.json')
-//
-// const extractFolderName = (str) => {
-//   const startIndex = str.indexOf('@') + 1
-//   const endIndex = str.indexOf('/', startIndex)
-//   return str.substring(startIndex, endIndex)
-// }
-//
-// const importPatterns = Object.keys(pathConfig.compilerOptions.paths).map((name) => {
-//   const folderName = extractFolderName(name)
-//   return {
-//     group: [`**/${folderName}`],
-//     message: `Please use import from ${name}`,
-//   }
-// })
+const pathConfig = require('./tsconfig.paths.json')
+
+const extractFolderName = (str) => {
+  const startIndex = str.indexOf('@') + 1
+  const endIndex = str.indexOf('/', startIndex)
+  return str.substring(startIndex, endIndex)
+}
+
+const importPatterns = Object.keys(pathConfig.compilerOptions.paths).map((name) => {
+  const folderName = extractFolderName(name)
+  return {
+    group: [`**/../${folderName}`],
+    message: `Please use import from ${name}`,
+  }
+})
 
 module.exports = {
   env: {
@@ -32,6 +32,12 @@ module.exports = {
       files: ['*.ts', '*.tsx', '*.js'],
       parser: '@typescript-eslint/parser',
     },
+    {
+      files: ['tools/**/*', '.eslintrc.js'],
+      rules: {
+        '@typescript-eslint/no-var-requires': ['off'],
+      },
+    },
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -41,12 +47,12 @@ module.exports = {
   plugins: ['react', 'react-hooks', '@typescript-eslint', 'prettier', 'import'],
   rules: {
     'no-restricted-imports': 'off',
-    // '@typescript-eslint/no-restricted-imports': [
-    //   'error',
-    //   {
-    //     patterns: importPatterns,
-    //   },
-    // ],
+    '@typescript-eslint/no-restricted-imports': [
+      'error',
+      {
+        patterns: importPatterns,
+      },
+    ],
   },
   settings: {
     'import/resolver': {

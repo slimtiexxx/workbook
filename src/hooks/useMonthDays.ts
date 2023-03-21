@@ -1,4 +1,6 @@
 import { dateUtil } from '@utils/date'
+import { useSelector } from 'react-redux'
+import { selectMonth, selectYear } from '@app/reducers/calendarSlice'
 export const DAYS_TO_DISPLAY = 42
 
 export type DayEntry = {
@@ -10,12 +12,14 @@ export type DayEntry = {
   inFuture: boolean
   fullDate: string
 }
-type UseCurrentMonthHookOptions = { year: number; month: number }
-type UseCurrentMonthHook = (options: UseCurrentMonthHookOptions) => DayEntry[]
+type UseCurrentMonthHook = () => DayEntry[]
 
 const cache: Record<string, DayEntry[]> = {}
 
-export const useMonthDays: UseCurrentMonthHook = ({ year, month }) => {
+export const useMonthDays: UseCurrentMonthHook = () => {
+  const month = useSelector(selectMonth)
+  const year = useSelector(selectYear)
+
   if (cache[`${year}-${month}`]) {
     return cache[`${year}-${month}`]
   }

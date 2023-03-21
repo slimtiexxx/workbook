@@ -4,12 +4,17 @@ import { useMonthDays } from '@hooks/useMonthDays'
 import { CalendarDay } from '@components/Calendar/CalendarDay'
 import { CalendarHeader } from '@components/Calendar/CalendarHeader'
 import { CalendarBody } from '@components/Calendar/CalendarBody'
-import { selectMonth, selectYear } from '@app/reducers/calendarSlice'
+import {
+  selectMonthHourSummary,
+  selectTotalHourSummary,
+  selectYearHourSummary,
+} from '@app/reducers/calendarSlice'
 
 export const Calendar: FC = () => {
-  const month = useSelector(selectMonth)
-  const year = useSelector(selectYear)
-  const days = useMonthDays({ year, month })
+  const monthHourSummary = useSelector(selectMonthHourSummary)
+  const yearHourSummary = useSelector(selectYearHourSummary)
+  const totalHourSummary = useSelector(selectTotalHourSummary)
+  const days = useMonthDays()
 
   return (
     <div className='container mx-auto space-y-6 py-10'>
@@ -19,6 +24,11 @@ export const Calendar: FC = () => {
           <CalendarDay {...entry} key={`${year}-${month}-${entry.date}`} />
         ))}
       </CalendarBody>
+      <div className='text-stone-300'>
+        <div>Worked in month: {monthHourSummary}h</div>
+        <div>Worked in year: {yearHourSummary}h</div>
+        <div>Worked in total: {totalHourSummary}h</div>
+      </div>
     </div>
   )
 }

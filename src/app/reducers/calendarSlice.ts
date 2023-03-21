@@ -10,10 +10,12 @@ export type HourEntry = {
   value: number
 }
 
+export type HoursRecord = Record<HourEntry['date'], HourEntry['value']>
+
 export interface CalendarState {
   month: number
   year: number
-  hours: Record<HourEntry['date'], HourEntry['value']>
+  hours: HoursRecord
 }
 
 const initialState: CalendarState = {
@@ -66,7 +68,49 @@ const selectSelf = (state: RootState) => state.calendar
 export const selectMonth = createSelector(selectSelf, (state) => state.month)
 export const selectYear = createSelector(selectSelf, (state) => state.year)
 export const selectHour = (date: string): ((state: RootState) => number) =>
-  createSelector(selectSelf, (state) => state.hours[date] || 0)
+  createSelector(
+    (state: RootState) => state.calendar.hours[date],
+    (hours) => hours || 0,
+  )
+
+export const selectMonthHourSummary = createSelector(
+  (state: RootState) => state.calendar.year,
+  (state: RootState) => state.calendar.month,
+  (state: RootState) => state.calendar.hours,
+  (year, month, hours) =>
+    Object.entries(hours).reduce((acc, [dateString, hour]) => {
+      const date = dateUtil(dateString)
+      if (date.year() === year && date.month() === month) {
+        acc += hour
+      }
+
+      return acc
+    }, 0),
+)
+
+export const selectYearHourSummary = createSelector(
+  (state: RootState) => state.calendar.year,
+  (state: RootState) => state.calendar.hours,
+  (year, hours) =>
+    Object.entries(hours).reduce((acc, [dateString, hour]) => {
+      const date = dateUtil(dateString)
+      if (date.year() === year) {
+        acc += hour
+      }
+
+      return acc
+    }, 0),
+)
+
+export const selectTotalHourSummary = createSelector(
+  (state: RootState) => state.calendar.hours,
+  (hours) =>
+    Object.values(hours).reduce((acc, hour) => {
+      acc += hour
+
+      return acc
+    }, 0),
+)
 
 export const { nextMonth, prevMonth, stepToday, setMonth, setYear, logHour } = calendarSlice.actions
 
