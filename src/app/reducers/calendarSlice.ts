@@ -27,7 +27,7 @@ export const calendarSlice = createSlice({
   initialState,
   reducers: {
     setYear: (state, { payload }: PayloadAction<HTMLSelectElement['value']>) => {
-      state.month = parseInt(payload, 10)
+      state.year = parseInt(payload, 10)
     },
     setMonth: (state, { payload }: PayloadAction<HTMLSelectElement['value']>) => {
       state.month = parseInt(payload, 10)
