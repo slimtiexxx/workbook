@@ -11,4 +11,6 @@ dayjs.updateLocale('en', {
   weekStart: 1,
 })
 
+export const DATE_FORMAT = 'YYYY-MM-DD'
+
 export { dayjs as dateUtil }

@@ -1,0 +1,7 @@
+mutation createDayEntry($date: Date, $hours: Float) {
+  createDayEntry(data: { date: $date, hours: $hours }) {
+    data {
+      id
+    }
+  }
+}

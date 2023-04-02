@@ -13,7 +13,10 @@ import {
 import { dateUtil } from '@utils/date'
 
 const months = dateUtil.months()
-const years = [2021, 2022, 2023]
+const currentYear = dateUtil().year()
+const years = Array.from(Array(5).keys())
+  .map((index) => currentYear - index)
+  .reverse()
 
 export const CalendarHeader: FC = () => {
   const year = useSelector(selectYear)

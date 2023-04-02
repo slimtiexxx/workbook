@@ -11,7 +11,7 @@ const parseExcel = async (): Promise<DayEntry[]> => {
 
   await workbook.xlsx.readFile(SOURCE_PATH)
 
-  const rawData: DayEntry[] = []
+  const dayEntries: DayEntry[] = []
 
   workbook.eachSheet((sheet) => {
     if (IGNORED_SHEET_NAMES.includes(sheet.name)) {
@@ -20,26 +20,16 @@ const parseExcel = async (): Promise<DayEntry[]> => {
 
     sheet.eachRow((row) => {
       const dateObject = dayjs(row.getCell('A').value as string)
-      const noteCell = row.getCell('D').value
-      const isPaid = (noteCell && typeof noteCell === 'string' && noteCell === 'SZÁMLÁZVA') || false
 
       if (dateObject.isValid()) {
-        rawData.push({
-          day: dateObject.format('YYYY-MM-DD'),
+        dayEntries.push({
+          date: dateObject.format('YYYY-MM-DD'),
           hours: Number(row.getCell('C').value) || 0,
-          paid: isPaid,
         })
       }
     })
   })
 
-  return rawData.reduce((acc: DayEntry[], curr: DayEntry) => {
-    if (curr.paid) {
-      acc = acc.map((day) => ({ ...day, paid: true }))
-    }
-    acc.push(curr)
-
-    return acc
-  }, [])
+  return dayEntries
 }
 export default parseExcel

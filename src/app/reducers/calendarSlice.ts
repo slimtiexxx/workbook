@@ -4,23 +4,22 @@ import { RootState } from '@app/store'
 
 const today = dateUtil()
 
-export type HourEntry = {
+export type DayEntry = {
+  id?: string | null
+  loggedHours: number
   date: string
-  hours: number
 }
-
-export type HoursRecord = Record<HourEntry['date'], HourEntry['hours']>
 
 export interface CalendarState {
   month: number
   year: number
-  hours: HoursRecord
+  days: DayEntry[]
 }
 
 const initialState: CalendarState = {
   month: today.month(),
   year: today.year(),
-  hours: {},
+  days: [],
 }
 
 export const calendarSlice = createSlice({
@@ -53,10 +52,18 @@ export const calendarSlice = createSlice({
       state.year = initialState.year
       state.month = initialState.month
     },
-    logHour: (state, { payload }: PayloadAction<HourEntry>) => {
-      state.hours = {
-        ...state.hours,
-        [payload.date]: payload.hours,
+    setHours: (state, { payload }: PayloadAction<DayEntry & { initialHours: number }>) => {
+      const index = state.days.findIndex((day) => day.date === payload.date)
+
+      if (payload.initialHours === payload.loggedHours) {
+        state.days.splice(index, 1)
+        return
+      }
+
+      if (index !== -1) {
+        state.days[index] = payload
+      } else {
+        state.days.push(payload)
       }
     },
   },
@@ -66,12 +73,14 @@ const selectSelf = (state: RootState) => state.calendar
 
 export const selectMonth = createSelector(selectSelf, (state) => state.month)
 export const selectYear = createSelector(selectSelf, (state) => state.year)
-export const selectHour = (date: string): ((state: RootState) => number) =>
+export const selectAllDays = createSelector(selectSelf, (calendar) => calendar.days)
+export const selectHours = (date: DayEntry['date']): ((state: RootState) => number | undefined) =>
   createSelector(
-    (state: RootState) => state.calendar.hours[date],
-    (hours) => hours || 0,
+    (state: RootState) => state.calendar.days,
+    (days) => days.find((day) => day.date === date)?.loggedHours,
   )
 
-export const { nextMonth, prevMonth, stepToday, setMonth, setYear, logHour } = calendarSlice.actions
+export const { nextMonth, prevMonth, stepToday, setMonth, setYear, setHours } =
+  calendarSlice.actions
 
 export default calendarSlice.reducer

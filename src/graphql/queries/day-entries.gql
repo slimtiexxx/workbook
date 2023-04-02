@@ -1,11 +1,10 @@
 query DayEntries($from: Date, $to: Date) {
-  dayEntries(sort: "day", filters: { day: { gte: $from, lte: $to } }, pagination: { limit: 100 }) {
+  dayEntries(sort: "date", filters: { date: { gte: $from, lte: $to } }, pagination: { limit: 100 }) {
     data {
       id
       attributes {
         hours
-        paid
-        day
+        date
       }
     }
   }

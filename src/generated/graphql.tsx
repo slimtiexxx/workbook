@@ -19,6 +19,44 @@ export type Scalars = {
   Upload: any
 }
 
+export type Bill = {
+  __typename?: 'Bill'
+  createdAt?: Maybe<Scalars['DateTime']>
+  date: Scalars['Date']
+  updatedAt?: Maybe<Scalars['DateTime']>
+}
+
+export type BillEntity = {
+  __typename?: 'BillEntity'
+  attributes?: Maybe<Bill>
+  id?: Maybe<Scalars['ID']>
+}
+
+export type BillEntityResponse = {
+  __typename?: 'BillEntityResponse'
+  data?: Maybe<BillEntity>
+}
+
+export type BillEntityResponseCollection = {
+  __typename?: 'BillEntityResponseCollection'
+  data: Array<BillEntity>
+  meta: ResponseCollectionMeta
+}
+
+export type BillFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<BillFiltersInput>>>
+  createdAt?: InputMaybe<DateTimeFilterInput>
+  date?: InputMaybe<DateFilterInput>
+  id?: InputMaybe<IdFilterInput>
+  not?: InputMaybe<BillFiltersInput>
+  or?: InputMaybe<Array<InputMaybe<BillFiltersInput>>>
+  updatedAt?: InputMaybe<DateTimeFilterInput>
+}
+
+export type BillInput = {
+  date?: InputMaybe<Scalars['Date']>
+}
+
 export type BooleanFilterInput = {
   and?: InputMaybe<Array<InputMaybe<Scalars['Boolean']>>>
   between?: InputMaybe<Array<InputMaybe<Scalars['Boolean']>>>
@@ -94,9 +132,8 @@ export type DateTimeFilterInput = {
 export type DayEntry = {
   __typename?: 'DayEntry'
   createdAt?: Maybe<Scalars['DateTime']>
-  day: Scalars['Date']
+  date: Scalars['Date']
   hours: Scalars['Float']
-  paid: Scalars['Boolean']
   updatedAt?: Maybe<Scalars['DateTime']>
 }
 
@@ -120,19 +157,17 @@ export type DayEntryEntityResponseCollection = {
 export type DayEntryFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<DayEntryFiltersInput>>>
   createdAt?: InputMaybe<DateTimeFilterInput>
-  day?: InputMaybe<DateFilterInput>
+  date?: InputMaybe<DateFilterInput>
   hours?: InputMaybe<FloatFilterInput>
   id?: InputMaybe<IdFilterInput>
   not?: InputMaybe<DayEntryFiltersInput>
   or?: InputMaybe<Array<InputMaybe<DayEntryFiltersInput>>>
-  paid?: InputMaybe<BooleanFilterInput>
   updatedAt?: InputMaybe<DateTimeFilterInput>
 }
 
 export type DayEntryInput = {
-  day?: InputMaybe<Scalars['Date']>
+  date?: InputMaybe<Scalars['Date']>
   hours?: InputMaybe<Scalars['Float']>
-  paid?: InputMaybe<Scalars['Boolean']>
 }
 
 export type FileInfoInput = {
@@ -166,6 +201,7 @@ export type FloatFilterInput = {
 }
 
 export type GenericMorph =
+  | Bill
   | DayEntry
   | I18NLocale
   | UploadFile
@@ -286,6 +322,7 @@ export type Mutation = {
   __typename?: 'Mutation'
   /** Change user password. Confirm with the current password. */
   changePassword?: Maybe<UsersPermissionsLoginPayload>
+  createBill?: Maybe<BillEntityResponse>
   createDayEntry?: Maybe<DayEntryEntityResponse>
   createUploadFile?: Maybe<UploadFileEntityResponse>
   createUploadFolder?: Maybe<UploadFolderEntityResponse>
@@ -293,6 +330,7 @@ export type Mutation = {
   createUsersPermissionsRole?: Maybe<UsersPermissionsCreateRolePayload>
   /** Create a new user */
   createUsersPermissionsUser: UsersPermissionsUserEntityResponse
+  deleteBill?: Maybe<BillEntityResponse>
   deleteDayEntry?: Maybe<DayEntryEntityResponse>
   deleteUploadFile?: Maybe<UploadFileEntityResponse>
   deleteUploadFolder?: Maybe<UploadFolderEntityResponse>
@@ -311,6 +349,7 @@ export type Mutation = {
   removeFile?: Maybe<UploadFileEntityResponse>
   /** Reset user password. Confirm with a code (resetToken from forgotPassword) */
   resetPassword?: Maybe<UsersPermissionsLoginPayload>
+  updateBill?: Maybe<BillEntityResponse>
   updateDayEntry?: Maybe<DayEntryEntityResponse>
   updateFileInfo: UploadFileEntityResponse
   updateUploadFile?: Maybe<UploadFileEntityResponse>
@@ -326,6 +365,10 @@ export type MutationChangePasswordArgs = {
   currentPassword: Scalars['String']
   password: Scalars['String']
   passwordConfirmation: Scalars['String']
+}
+
+export type MutationCreateBillArgs = {
+  data: BillInput
 }
 
 export type MutationCreateDayEntryArgs = {
@@ -346,6 +389,10 @@ export type MutationCreateUsersPermissionsRoleArgs = {
 
 export type MutationCreateUsersPermissionsUserArgs = {
   data: UsersPermissionsUserInput
+}
+
+export type MutationDeleteBillArgs = {
+  id: Scalars['ID']
 }
 
 export type MutationDeleteDayEntryArgs = {
@@ -399,6 +446,11 @@ export type MutationResetPasswordArgs = {
   code: Scalars['String']
   password: Scalars['String']
   passwordConfirmation: Scalars['String']
+}
+
+export type MutationUpdateBillArgs = {
+  data: BillInput
+  id: Scalars['ID']
 }
 
 export type MutationUpdateDayEntryArgs = {
@@ -456,6 +508,8 @@ export type PaginationArg = {
 
 export type Query = {
   __typename?: 'Query'
+  bill?: Maybe<BillEntityResponse>
+  bills?: Maybe<BillEntityResponseCollection>
   dayEntries?: Maybe<DayEntryEntityResponseCollection>
   dayEntry?: Maybe<DayEntryEntityResponse>
   i18NLocale?: Maybe<I18NLocaleEntityResponse>
@@ -469,6 +523,16 @@ export type Query = {
   usersPermissionsRoles?: Maybe<UsersPermissionsRoleEntityResponseCollection>
   usersPermissionsUser?: Maybe<UsersPermissionsUserEntityResponse>
   usersPermissionsUsers?: Maybe<UsersPermissionsUserEntityResponseCollection>
+}
+
+export type QueryBillArgs = {
+  id?: InputMaybe<Scalars['ID']>
+}
+
+export type QueryBillsArgs = {
+  filters?: InputMaybe<BillFiltersInput>
+  pagination?: InputMaybe<PaginationArg>
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>
 }
 
 export type QueryDayEntriesArgs = {
@@ -929,6 +993,49 @@ export type UsersPermissionsUserRelationResponseCollection = {
   data: Array<UsersPermissionsUserEntity>
 }
 
+export type CreateDayEntryMutationVariables = Exact<{
+  date?: InputMaybe<Scalars['Date']>
+  hours?: InputMaybe<Scalars['Float']>
+}>
+
+export type CreateDayEntryMutation = {
+  __typename?: 'Mutation'
+  createDayEntry?: {
+    __typename?: 'DayEntryEntityResponse'
+    data?: { __typename?: 'DayEntryEntity'; id?: string | null } | null
+  } | null
+}
+
+export type UpdateDayEntryMutationVariables = Exact<{
+  id: Scalars['ID']
+  hours?: InputMaybe<Scalars['Float']>
+}>
+
+export type UpdateDayEntryMutation = {
+  __typename?: 'Mutation'
+  updateDayEntry?: {
+    __typename?: 'DayEntryEntityResponse'
+    data?: { __typename?: 'DayEntryEntity'; id?: string | null } | null
+  } | null
+}
+
+export type DayEntriesHoursQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']>
+  to?: InputMaybe<Scalars['Date']>
+}>
+
+export type DayEntriesHoursQuery = {
+  __typename?: 'Query'
+  dayEntries?: {
+    __typename?: 'DayEntryEntityResponseCollection'
+    data: Array<{
+      __typename?: 'DayEntryEntity'
+      id?: string | null
+      attributes?: { __typename?: 'DayEntry'; hours: number } | null
+    }>
+  } | null
+}
+
 export type DayEntriesQueryVariables = Exact<{
   from?: InputMaybe<Scalars['Date']>
   to?: InputMaybe<Scalars['Date']>
@@ -941,38 +1048,189 @@ export type DayEntriesQuery = {
     data: Array<{
       __typename?: 'DayEntryEntity'
       id?: string | null
-      attributes?: { __typename?: 'DayEntry'; hours: number; paid: boolean; day: any } | null
+      attributes?: { __typename?: 'DayEntry'; hours: number; date: any } | null
     }>
   } | null
 }
 
-export type UnpaidHoursQueryVariables = Exact<{ [key: string]: never }>
+export type LatestBillQueryVariables = Exact<{ [key: string]: never }>
 
-export type UnpaidHoursQuery = {
+export type LatestBillQuery = {
   __typename?: 'Query'
-  dayEntries?: {
-    __typename?: 'DayEntryEntityResponseCollection'
+  bills?: {
+    __typename?: 'BillEntityResponseCollection'
     data: Array<{
-      __typename?: 'DayEntryEntity'
+      __typename?: 'BillEntity'
       id?: string | null
-      attributes?: { __typename?: 'DayEntry'; hours: number } | null
+      attributes?: { __typename?: 'Bill'; date: any } | null
     }>
   } | null
 }
 
+export const CreateDayEntryDocument = gql`
+  mutation createDayEntry($date: Date, $hours: Float) {
+    createDayEntry(data: { date: $date, hours: $hours }) {
+      data {
+        id
+      }
+    }
+  }
+`
+export type CreateDayEntryMutationFn = Apollo.MutationFunction<
+  CreateDayEntryMutation,
+  CreateDayEntryMutationVariables
+>
+
+/**
+ * __useCreateDayEntryMutation__
+ *
+ * To run a mutation, you first call `useCreateDayEntryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateDayEntryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createDayEntryMutation, { data, loading, error }] = useCreateDayEntryMutation({
+ *   variables: {
+ *      date: // value for 'date'
+ *      hours: // value for 'hours'
+ *   },
+ * });
+ */
+export function useCreateDayEntryMutation(
+  baseOptions?: Apollo.MutationHookOptions<CreateDayEntryMutation, CreateDayEntryMutationVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<CreateDayEntryMutation, CreateDayEntryMutationVariables>(
+    CreateDayEntryDocument,
+    options,
+  )
+}
+export type CreateDayEntryMutationHookResult = ReturnType<typeof useCreateDayEntryMutation>
+export type CreateDayEntryMutationResult = Apollo.MutationResult<CreateDayEntryMutation>
+export type CreateDayEntryMutationOptions = Apollo.BaseMutationOptions<
+  CreateDayEntryMutation,
+  CreateDayEntryMutationVariables
+>
+export const UpdateDayEntryDocument = gql`
+  mutation updateDayEntry($id: ID!, $hours: Float) {
+    updateDayEntry(id: $id, data: { hours: $hours }) {
+      data {
+        id
+      }
+    }
+  }
+`
+export type UpdateDayEntryMutationFn = Apollo.MutationFunction<
+  UpdateDayEntryMutation,
+  UpdateDayEntryMutationVariables
+>
+
+/**
+ * __useUpdateDayEntryMutation__
+ *
+ * To run a mutation, you first call `useUpdateDayEntryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateDayEntryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateDayEntryMutation, { data, loading, error }] = useUpdateDayEntryMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      hours: // value for 'hours'
+ *   },
+ * });
+ */
+export function useUpdateDayEntryMutation(
+  baseOptions?: Apollo.MutationHookOptions<UpdateDayEntryMutation, UpdateDayEntryMutationVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<UpdateDayEntryMutation, UpdateDayEntryMutationVariables>(
+    UpdateDayEntryDocument,
+    options,
+  )
+}
+export type UpdateDayEntryMutationHookResult = ReturnType<typeof useUpdateDayEntryMutation>
+export type UpdateDayEntryMutationResult = Apollo.MutationResult<UpdateDayEntryMutation>
+export type UpdateDayEntryMutationOptions = Apollo.BaseMutationOptions<
+  UpdateDayEntryMutation,
+  UpdateDayEntryMutationVariables
+>
+export const DayEntriesHoursDocument = gql`
+  query DayEntriesHours($from: Date, $to: Date) {
+    dayEntries(
+      sort: "date"
+      filters: { date: { gte: $from, lte: $to } }
+      pagination: { limit: 9999999 }
+    ) {
+      data {
+        id
+        attributes {
+          hours
+        }
+      }
+    }
+  }
+`
+
+/**
+ * __useDayEntriesHoursQuery__
+ *
+ * To run a query within a React component, call `useDayEntriesHoursQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDayEntriesHoursQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDayEntriesHoursQuery({
+ *   variables: {
+ *      from: // value for 'from'
+ *      to: // value for 'to'
+ *   },
+ * });
+ */
+export function useDayEntriesHoursQuery(
+  baseOptions?: Apollo.QueryHookOptions<DayEntriesHoursQuery, DayEntriesHoursQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<DayEntriesHoursQuery, DayEntriesHoursQueryVariables>(
+    DayEntriesHoursDocument,
+    options,
+  )
+}
+export function useDayEntriesHoursLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<DayEntriesHoursQuery, DayEntriesHoursQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<DayEntriesHoursQuery, DayEntriesHoursQueryVariables>(
+    DayEntriesHoursDocument,
+    options,
+  )
+}
+export type DayEntriesHoursQueryHookResult = ReturnType<typeof useDayEntriesHoursQuery>
+export type DayEntriesHoursLazyQueryHookResult = ReturnType<typeof useDayEntriesHoursLazyQuery>
+export type DayEntriesHoursQueryResult = Apollo.QueryResult<
+  DayEntriesHoursQuery,
+  DayEntriesHoursQueryVariables
+>
 export const DayEntriesDocument = gql`
   query DayEntries($from: Date, $to: Date) {
     dayEntries(
-      sort: "day"
-      filters: { day: { gte: $from, lte: $to } }
+      sort: "date"
+      filters: { date: { gte: $from, lte: $to } }
       pagination: { limit: 100 }
     ) {
       data {
         id
         attributes {
           hours
-          paid
-          day
+          date
         }
       }
     }
@@ -1011,17 +1269,13 @@ export function useDayEntriesLazyQuery(
 export type DayEntriesQueryHookResult = ReturnType<typeof useDayEntriesQuery>
 export type DayEntriesLazyQueryHookResult = ReturnType<typeof useDayEntriesLazyQuery>
 export type DayEntriesQueryResult = Apollo.QueryResult<DayEntriesQuery, DayEntriesQueryVariables>
-export const UnpaidHoursDocument = gql`
-  query UnpaidHours {
-    dayEntries(
-      sort: "day"
-      pagination: { limit: 9999999 }
-      filters: { hours: { gt: 0 }, paid: { eq: false } }
-    ) {
+export const LatestBillDocument = gql`
+  query LatestBill {
+    bills(sort: "date:desc", pagination: { limit: 1 }) {
       data {
         id
         attributes {
-          hours
+          date
         }
       }
     }
@@ -1029,35 +1283,32 @@ export const UnpaidHoursDocument = gql`
 `
 
 /**
- * __useUnpaidHoursQuery__
+ * __useLatestBillQuery__
  *
- * To run a query within a React component, call `useUnpaidHoursQuery` and pass it any options that fit your needs.
- * When your component renders, `useUnpaidHoursQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useLatestBillQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLatestBillQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useUnpaidHoursQuery({
+ * const { data, loading, error } = useLatestBillQuery({
  *   variables: {
  *   },
  * });
  */
-export function useUnpaidHoursQuery(
-  baseOptions?: Apollo.QueryHookOptions<UnpaidHoursQuery, UnpaidHoursQueryVariables>,
+export function useLatestBillQuery(
+  baseOptions?: Apollo.QueryHookOptions<LatestBillQuery, LatestBillQueryVariables>,
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<UnpaidHoursQuery, UnpaidHoursQueryVariables>(UnpaidHoursDocument, options)
+  return Apollo.useQuery<LatestBillQuery, LatestBillQueryVariables>(LatestBillDocument, options)
 }
-export function useUnpaidHoursLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<UnpaidHoursQuery, UnpaidHoursQueryVariables>,
+export function useLatestBillLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<LatestBillQuery, LatestBillQueryVariables>,
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<UnpaidHoursQuery, UnpaidHoursQueryVariables>(
-    UnpaidHoursDocument,
-    options,
-  )
+  return Apollo.useLazyQuery<LatestBillQuery, LatestBillQueryVariables>(LatestBillDocument, options)
 }
-export type UnpaidHoursQueryHookResult = ReturnType<typeof useUnpaidHoursQuery>
-export type UnpaidHoursLazyQueryHookResult = ReturnType<typeof useUnpaidHoursLazyQuery>
-export type UnpaidHoursQueryResult = Apollo.QueryResult<UnpaidHoursQuery, UnpaidHoursQueryVariables>
+export type LatestBillQueryHookResult = ReturnType<typeof useLatestBillQuery>
+export type LatestBillLazyQueryHookResult = ReturnType<typeof useLatestBillLazyQuery>
+export type LatestBillQueryResult = Apollo.QueryResult<LatestBillQuery, LatestBillQueryVariables>

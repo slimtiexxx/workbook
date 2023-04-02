@@ -1,0 +1,10 @@
+query LatestBill {
+  bills(sort: "date:desc", pagination: { limit: 1 }) {
+    data {
+      id
+      attributes {
+        date
+      }
+    }
+  }
+}

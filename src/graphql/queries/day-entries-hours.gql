@@ -1,0 +1,10 @@
+query DayEntriesHours($from: Date, $to: Date) {
+  dayEntries(sort: "date", filters: { date: { gte: $from, lte: $to } }, pagination: { limit: 9999999 }) {
+    data {
+      id
+      attributes {
+        hours
+      }
+    }
+  }
+}

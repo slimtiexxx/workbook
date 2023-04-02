@@ -1,0 +1,7 @@
+mutation updateDayEntry($id: ID!, $hours: Float) {
+  updateDayEntry(id: $id, data: { hours: $hours }) {
+    data {
+      id
+    }
+  }
+}

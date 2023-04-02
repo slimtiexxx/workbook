@@ -31,11 +31,11 @@ const createDayEntry = async (entry: DayEntry) => {
   })
 
   if (response?.ok) {
-    console.log(chalk.green(`✅ Successfully created record for ${entry.day}`))
+    console.log(chalk.green(`✅ Successfully created record for ${entry.date}`))
   } else {
     const reason = await response.text()
     console.log(reason)
-    console.log(chalk.red(`‼️ Failed created record for ${entry.day}`))
+    console.log(chalk.red(`‼️ Failed created record for ${entry.date}`))
   }
 }
 
